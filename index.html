@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Pixel 9 Series - Explore the Future</title>
+    <title>Google Pixel 9 Series - Official Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <style>
         :root {
-            --primary-blue: #4285f4;
-            --accent-red: #ea4335;
-            --accent-yellow: #fbbc05;
-            --accent-green: #34a853;
-            --bg-light: #f5f5f5;
-            --text-dark: #202124;
-            --shadow: rgba(0, 0, 0, 0.2);
+            --primary-blue: #1a73e8;
+            --discount-red: #d93025;
+            --coin-gold: #f9ab00;
+            --bg-grey: #f8f9fa;
         }
 
         * {
@@ -25,232 +22,195 @@
 
         body {
             font-family: 'Google Sans', sans-serif;
-            background: var(--bg-light);
-            color: var(--text-dark);
-            overflow-x: hidden;
+            background: var(--bg-grey);
+            color: #202124;
         }
 
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
             text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
         }
 
-        .hero video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
+        .product-card:hover {
+            transform: translateY(-5px);
         }
 
-        .hero-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(66, 133, 244, 0.4), rgba(234, 67, 53, 0.4));
-            z-index: 0;
-        }
-
-        .hero-content {
-            z-index: 1;
-        }
-
-        .hero h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(to right, var(--primary-blue), var(--accent-red));
-            -webkit-background-clip: text;
-            color: transparent;
-            margin-bottom: 20px;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            color: #fff;
-        }
-
-        /* Product Wheel */
-        .product-wheel-section {
+        .image-container {
             position: relative;
-            min-height: 80vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 40px 0;
-        }
-
-        .wheel-container {
-            position: relative;
-            width: 600px;
-            height: 600px;
-            overflow-x: auto;
-            overflow-y: hidden;
-            white-space: nowrap;
-            scroll-behavior: smooth;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .wheel {
-            display: inline-flex;
-            gap: 30px;
-            padding: 0 20px;
-        }
-
-        .product-circle {
-            width: 200px;
-            height: 300px;
-            background: #fff;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px var(--shadow);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-
-        .product-circle:hover {
-            transform: scale(1.1);
+            height: 280px;
+            background: #f8f9fa;
+            padding: 20px;
         }
 
         .product-image {
             width: 100%;
-            height: 150px;
+            height: 100%;
             object-fit: contain;
+        }
+
+        .storage-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .details-container {
             padding: 20px;
         }
 
-        .product-info {
-            padding: 15px;
+        .model-title {
+            font-size: 1.4rem;
+            color: var(--primary-blue);
+            margin-bottom: 8px;
+        }
+
+        .color-storage {
+            color: #5f6368;
+            margin-bottom: 15px;
+        }
+
+        .price-container {
+            margin: 15px 0;
+        }
+
+        .final-price {
+            font-size: 1.8rem;
+            color: var(--discount-red);
+            font-weight: 700;
+        }
+
+        .original-price {
+            text-decoration: line-through;
+            color: #5f6368;
+            margin-left: 10px;
+        }
+
+        .coin-rebate {
+            background: var(--coin-gold);
+            color: black;
+            padding: 8px 15px;
+            border-radius: 25px;
+            margin: 15px 0;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .spec-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
             text-align: center;
         }
 
-        .product-info h3 {
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-            margin-bottom: 5px;
+        .benefits-section {
+            background: #e8f0fe;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
         }
 
-        .product-info p {
-            font-size: 0.9rem;
-            color: #666;
-        }
-
-        .price {
-            font-weight: 700;
-            color: var(--accent-red);
+        .free-gift {
+            color: var(--discount-red);
+            font-weight: 500;
             margin: 10px 0;
         }
 
-        /* Floating Sections */
-        .floating-section {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 4px 15px var(--shadow);
-            max-width: 300px;
+        .staff-note {
+            font-size: 0.8rem;
+            color: #5f6368;
+            margin-top: 15px;
         }
 
-        .specs-float {
-            top: 20%;
-            left: 5%;
-        }
-
-        .compare-float {
-            bottom: 20%;
-            right: 5%;
-        }
-
-        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            .product-grid {
+                grid-template-columns: 1fr;
             }
-
-            .hero p {
-                font-size: 1rem;
-            }
-
-            .wheel-container {
-                width: 100%;
-                height: auto;
-                overflow-x: hidden;
-                overflow-y: auto;
-                white-space: normal;
-            }
-
-            .wheel {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px;
-            }
-
-            .product-circle {
-                width: 80%;
-                margin-bottom: 20px;
-            }
-
-            .floating-section {
-                position: static;
-                max-width: 100%;
-                margin: 20px auto;
+            
+            .image-container {
+                height: 220px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <video autoplay muted loop>
-            <source src="https://via.placeholder.com/video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-        <div class="hero-overlay"></div>
-        <div class="hero-content">
-            <h1>Pixel 9 Series</h1>
-            <p>Unleash Innovation in Your Hands</p>
+    <div class="container">
+        <div class="header">
+            <h1>Google Pixel 9 Series</h1>
+            <p>Official Store Promotion - Limited Time Offers</p>
         </div>
-    </section>
-
-    <!-- Product Wheel Section -->
-    <section class="product-wheel-section">
-        <div class="wheel-container">
-            <div class="wheel" id="product-wheel">
-                <!-- Products will be dynamically inserted here -->
-            </div>
-        </div>
-
-        <!-- Floating Specs -->
-        <div class="floating-section specs-float">
-            <h2>Key Specs</h2>
-            <p>Advanced features await you.</p>
-            <!-- Specs can be populated dynamically -->
-        </div>
-
-        <!-- Floating Compare -->
-        <div class="floating-section compare-float">
-            <h2>Compare</h2>
-            <p>Select models to see differences.</p>
-            <!-- Comparison logic placeholder -->
-        </div>
-    </section>
+        <div class="product-grid" id="product-container"></div>
+    </div>
 
     <script>
-        const modelData = {
-            'Pixel 9': { price: 799, specs: '6.1" OLED, Tensor G4', image: 'https://via.placeholder.com/200?text=Pixel+9' },
-            'Pixel 9 Pro': { price: 999, specs: '6.7" OLED, Tensor G4', image: 'https://via.placeholder.com/200?text=Pixel+9+Pro' },
-            'Pixel 9 Pro XL': { price: 1199, specs: '6.9" OLED, Tensor G4', image: 'https://via.placeholder.com/200?text=Pixel+9+Pro+XL' }
+        // Model Specifications Database
+        const modelSpecs = {
+            'Pixel 9': {
+                display: '6.1" Actua OLED (2400×1080)',
+                refreshRate: '120Hz',
+                processor: 'Google Tensor G4',
+                ram: '8GB LPDDR5X',
+                cameras: '50MP main + 12MP ultra-wide',
+                battery: '4575mAh',
+                protection: 'IP68',
+                weight: '168g'
+            },
+            'Pixel 9 Pro': {
+                display: '6.7" Super Actua OLED (3120×1440)',
+                refreshRate: '1-120Hz LTPO',
+                processor: 'Google Tensor G4',
+                ram: '12GB LPDDR5X',
+                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
+                battery: '5050mAh',
+                protection: 'IP68',
+                weight: '203g'
+            },
+            'Pixel 9 Pro XL': {
+                display: '6.9" Super Actua OLED (3360×1520)',
+                refreshRate: '1-120Hz LTPO',
+                processor: 'Google Tensor G4',
+                ram: '12GB LPDDR5X',
+                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
+                battery: '5500mAh',
+                protection: 'IP68',
+                weight: '221g'
+            }
         };
 
         async function loadProducts() {
@@ -261,44 +221,86 @@
                 const worksheet = workbook.Sheets[workbook.SheetNames[0]];
                 const products = XLSX.utils.sheet_to_json(worksheet);
 
-                displayProducts(products);
+                processProducts(products);
             } catch (error) {
                 console.error('Error loading products:', error);
-                displayFallbackProducts();
+                document.getElementById('product-container').innerHTML = 
+                    '<p style="text-align:center; color:red">Error loading products. Please try again later.</p>';
             }
         }
 
-        function displayProducts(products) {
-            const wheel = document.getElementById('product-wheel');
-            products.forEach(product => {
-                const circle = document.createElement('div');
-                circle.className = 'product-circle';
-                circle.innerHTML = `
-                    <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
-                    <div class="product-info">
-                        <h3>${product.MODEL} (${product.GB})</h3>
-                        <p>${product.COLOR}</p>
-                        <p class="price">RM${product.FINAL.toLocaleString()}</p>
-                    </div>
-                `;
-                wheel.appendChild(circle);
-            });
+        function formatCurrency(amount) {
+            return 'RM' + amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        function displayFallbackProducts() {
-            const wheel = document.getElementById('product-wheel');
-            Object.entries(modelData).forEach(([model, data]) => {
-                const circle = document.createElement('div');
-                circle.className = 'product-circle';
-                circle.innerHTML = `
-                    <img src="${data.image}" class="product-image" alt="${model}">
-                    <div class="product-info">
-                        <h3>${model}</h3>
-                        <p>${data.specs}</p>
-                        <p class="price">$${data.price}</p>
+        function processProducts(products) {
+            const container = document.getElementById('product-container');
+            
+            products.forEach(product => {
+                const specs = modelSpecs[product.MODEL];
+                const sCoinValue = product.RCP * product['S-Coin'];
+                const benefitsText = product.MODEL.includes("Pro") ? 
+                    "1 Year Google One AI Premium + 6mo Fitbit Premium*" : 
+                    "6mo Google One Premium 2TB + 6mo Fitbit Premium*";
+
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="image-container">
+                        <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
+                        <div class="storage-badge">${product.GB}</div>
+                    </div>
+                    
+                    <div class="details-container">
+                        <h2 class="model-title">${product.MODEL}</h2>
+                        <div class="color-storage">${product.COLOR} | ${product.GB}</div>
+                        
+                        <div class="price-container">
+                            <span class="final-price">${formatCurrency(product.FINAL)}</span>
+                            <span class="original-price">${formatCurrency(product.RCP)}</span>
+                        </div>
+                        
+                        <div class="coin-rebate">
+                            🟡 ${(product['S-Coin']*100)}% S-Coin Rebate (≈ ${formatCurrency(sCoinValue)})
+                        </div>
+                        
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <div>${specs.display}</div>
+                                <small>Display</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.processor}</div>
+                                <small>Processor</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.ram}</div>
+                                <small>RAM</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.battery}</div>
+                                <small>Battery</small>
+                            </div>
+                        </div>
+                        
+                        <div class="benefits-section">
+                            <strong>Premium Benefits:</strong><br>
+                            ${benefitsText}<br>
+                            <em style="font-size:0.9em">*Until further notice</em>
+                        </div>
+                        
+                        <div class="free-gift">
+                            🎁 Free Gift: ${product.REMARK} (While stocks last)
+                        </div>
+                        
+                        <div class="staff-note">
+                            Staff Reference: ${product.PAC}<br>
+                            Instant Save: RM${product.VOU.toLocaleString()}
+                        </div>
                     </div>
                 `;
-                wheel.appendChild(circle);
+
+                container.appendChild(card);
             });
         }
 
