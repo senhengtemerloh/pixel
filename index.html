@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Google Pixel 9 Series</title>
+  <!-- Google Fonts for a modern look -->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <style>
+    /* Reset & Base Styles */
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    /* Product Card Styles */
+    .product-card {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      overflow: hidden;
+    }
+    .product-image {
+      flex: 1 1 300px;
+      max-width: 300px;
+      position: relative;
+    }
+    .product-image img {
+      width: 100%;
+      display: block;
+    }
+    /* Badge Styles */
+    .spec-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .badge {
+      padding: 5px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #fff;
+    }
+    .badge.gb {
+      background: #007bff;
+    }
+    .badge.color {
+      /* Background color will be set inline based on actual color */
+    }
+    /* Product Details */
+    .product-details {
+      flex: 2 1 300px;
+      padding: 20px;
+      position: relative;
+    }
+    .product-details h2 {
+      margin-top: 0;
+    }
+    .price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #d9534f;
+    }
+    .rcp {
+      font-size: 0.9rem;
+      color: #777;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .savings {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #5cb85c;
+    }
+    .s-coin {
+      margin-top: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #f0ad4e;
+    }
+    .s-coin small {
+      font-size: 0.8rem;
+      color: #777;
+    }
+    .free-gift {
+      margin-top: 15px;
+      background: #e9ecef;
+      padding: 10px;
+      border-left: 4px solid #17a2b8;
+      font-size: 0.9rem;
+    }
+    .benefits {
+      margin-top: 15px;
+      font-size: 0.95rem;
+      background: #f7f7f7;
+      padding: 10px;
+      border-left: 4px solid #6f42c1;
+    }
+    .pac-vou {
+      margin-top: 15px;
+      font-size: 0.7rem;
+      color: #aaa;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    @media (max-width: 768px) {
+      .product-card {
+        flex-direction: column;
+      }
+      .product-image, .product-details {
+        max-width: 100%;
+      }
+      .pac-vou {
+        position: static;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Google Pixel 9 Series</h1>
+    <div id="product-list">
+      <!-- Product cards will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- SheetJS library to parse Excel files -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    // Mapping for color names to approximate hex codes
+    const colorMapping = {
+      "OBSIDIAN": "#343a40",     // Dark Gray
+      "PORCELAIN": "#F8F9FA",     // Off-white (text will be dark)
+      "WINTERGREEN": "#66cc66",   // Green
+      "PEONY": "#FFC0CB",         // Pink
+      "ROSE QUARTZ": "#F7CAC9",    // Soft Pink
+      "HAZEL": "#8B4513"          // Brown
+    };
+
+    // Helper function to format currency
+    function formatCurrency(value) {
+      return "RM" + parseFloat(value).toFixed(2);
+    }
+
+    // Load the Excel file (pixel.xlsx) from the same directory
+    fetch('pixel.xlsx')
+      .then(response => response.arrayBuffer())
+      .then(data => {
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        renderProducts(jsonData);
+      })
+      .catch(error => {
+        console.error("Error loading Excel file:", error);
+      });
+
+    function renderProducts(products) {
+      const container = document.getElementById('product-list');
+      products.forEach(product => {
+        // Calculate S-Coin value (based on RCP * S-Coin percentage)
+        let sCoinValue = Math.round(product.RCP * product["S-Coin"]);
+
+        // Determine the benefits text based on the model
+        let benefitText = "";
+        if (product.MODEL.includes("Pixel 9 Pro") || product.MODEL.includes("Pixel 9 Pro XL")) {
+          benefitText = "Premium Google Services* (1 Year Google One AI Premium plan and 6 months Fitbit Premium) <br><small>*until further notice</small>";
+        } else {
+          benefitText = "Enjoy Premium Google Services* (6 months Google One Premium 2 TB plan and 6 months Fitbit Premium) <br><small>*until further notice</small>";
+        }
+
+        // Create the product card
+        const card = document.createElement('div');
+        card.className = 'product-card';
+
+        // --- Left: Product Image & Spec Badges ---
+        const imgContainer = document.createElement('div');
+        imgContainer.className = 'product-image';
+        const img = document.createElement('img');
+        img.src = product.URL;
+        img.alt = product.MODEL;
+        imgContainer.appendChild(img);
+
+        // Badge container for GB and Color
+        const specBadge = document.createElement('div');
+        specBadge.className = 'spec-badge';
+
+        // GB badge
+        const gbBadge = document.createElement('div');
+        gbBadge.className = 'badge gb';
+        gbBadge.textContent = product.GB;
+        specBadge.appendChild(gbBadge);
+
+        // Color badge
+        const colorBadge = document.createElement('div');
+        colorBadge.className = 'badge color';
+        colorBadge.textContent = product.COLOR;
+        // Set background based on color mapping; fallback to gray if not found
+        let colKey = product.COLOR.toUpperCase();
+        colorBadge.style.backgroundColor = colorMapping[colKey] || '#999';
+        // Adjust text color for light backgrounds (e.g., PORCELAIN)
+        if(colKey === "PORCELAIN") {
+          colorBadge.style.color = '#333';
+        }
+        specBadge.appendChild(colorBadge);
+        imgContainer.appendChild(specBadge);
+
+        // --- Right: Product Details ---
+        const details = document.createElement('div');
+        details.className = 'product-details';
+
+        // Model Name (includes GB and Color for extra clarity)
+        const modelName = document.createElement('h2');
+        modelName.textContent = product.MODEL + " (" + product.GB + ", " + product.COLOR + ")";
+        details.appendChild(modelName);
+
+        // Price: Final price highlighted and RCP shown smaller and struck through
+        const priceInfo = document.createElement('div');
+        const finalPrice = document.createElement('span');
+        finalPrice.className = 'price';
+        finalPrice.textContent = formatCurrency(product.FINAL);
+        priceInfo.appendChild(finalPrice);
+
+        const rcpPrice = document.createElement('span');
+        rcpPrice.className = 'rcp';
+        rcpPrice.textContent = formatCurrency(product.RCP);
+        priceInfo.appendChild(rcpPrice);
+        details.appendChild(priceInfo);
+
+        // Savings information (voucher value)
+        const savings = document.createElement('div');
+        savings.className = 'savings';
+        savings.innerHTML = "You Save: " + formatCurrency(product.VOU);
+        details.appendChild(savings);
+
+        // S-Coin rebate info (most important; percentage and computed value)
+        const sCoinDiv = document.createElement('div');
+        sCoinDiv.className = 's-coin';
+        sCoinDiv.innerHTML = "S-Coin: " + (product["S-Coin"] * 100) + "% <small>(Worth " + formatCurrency(sCoinValue) + ")</small>";
+        details.appendChild(sCoinDiv);
+
+        // Free Gift display
+        const freeGift = document.createElement('div');
+        freeGift.className = 'free-gift';
+        freeGift.textContent = "Free Gift: " + product.REMARK;
+        details.appendChild(freeGift);
+
+        // Benefits information (placed under each model)
+        const benefits = document.createElement('div');
+        benefits.className = 'benefits';
+        benefits.innerHTML = benefitText;
+        details.appendChild(benefits);
+
+        // Bottom info: PAC code and voucher value for staff reference (very small font)
+        const pacInfo = document.createElement('div');
+        pacInfo.className = 'pac-vou';
+        pacInfo.textContent = product.PAC + " + InstantSave " + product.VOU;
+        details.appendChild(pacInfo);
+
+        // Append image and details to card
+        card.appendChild(imgContainer);
+        card.appendChild(details);
+        // Append card to main container
+        container.appendChild(card);
+      });
+    }
+  </script>
+</body>
+</html>
