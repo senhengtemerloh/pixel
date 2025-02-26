@@ -12,6 +12,8 @@
             --discount-red: #d93025;
             --coin-gold: #f9ab00;
             --bg-grey: #f8f9fa;
+            --text-dark: #202124;
+            --text-grey: #5f6368;
         }
 
         * {
@@ -23,7 +25,8 @@
         body {
             font-family: 'Google Sans', sans-serif;
             background: var(--bg-grey);
-            color: #202124;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
         .container {
@@ -32,19 +35,51 @@
             padding: 20px;
         }
 
-        .header {
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://via.placeholder.com/1200x400?text=Pixel+9+Series');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            color: white;
         }
 
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .cta-button {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #1557b0;
+        }
+
+        /* Product Grid */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 25px;
+            margin-top: 40px;
         }
 
         .product-card {
@@ -52,11 +87,12 @@
             border-radius: 16px;
             overflow: hidden;
             box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
         }
 
         .image-container {
@@ -70,6 +106,11 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
         }
 
         .storage-badge {
@@ -88,18 +129,22 @@
         }
 
         .model-title {
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             color: var(--primary-blue);
+            font-weight: 500;
             margin-bottom: 8px;
         }
 
         .color-storage {
-            color: #5f6368;
+            color: var(--text-grey);
             margin-bottom: 15px;
         }
 
         .price-container {
             margin: 15px 0;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
         }
 
         .final-price {
@@ -110,8 +155,8 @@
 
         .original-price {
             text-decoration: line-through;
-            color: #5f6368;
-            margin-left: 10px;
+            color: var(--text-grey);
+            font-size: 1.2rem;
         }
 
         .coin-rebate {
@@ -126,17 +171,23 @@
         }
 
         .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
             margin: 15px 0;
         }
 
         .spec-item {
+            flex: 1 1 45%;
             background: #f8f9fa;
             padding: 12px;
             border-radius: 8px;
             text-align: center;
+        }
+
+        .spec-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
         .benefits-section {
@@ -146,70 +197,142 @@
             margin: 15px 0;
         }
 
+        .benefits-section ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 8px;
+        }
+
+        .benefits-section li {
+            margin-bottom: 5px;
+        }
+
         .free-gift {
             color: var(--discount-red);
             font-weight: 500;
             margin: 10px 0;
         }
 
-        .staff-note {
-            font-size: 0.8rem;
-            color: #5f6368;
+        .stock-notice {
+            font-size: 0.9rem;
+            color: var(--discount-red);
+            font-weight: 500;
             margin-top: 15px;
         }
 
+        /* Comparison Section */
+        .comparison-section {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .comparison-section h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .hero {
+                height: 300px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
             .product-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .image-container {
                 height: 220px;
+            }
+
+            .spec-item {
+                flex: 1 1 100%;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Google Pixel 9 Series</h1>
-            <p>Official Store Promotion - Limited Time Offers</p>
+        <!-- Hero Section -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Discover the Google Pixel 9 Series</h1>
+                <p>Unleash innovation with cutting-edge technology and exclusive offers.</p>
+                <button class="cta-button">Shop Now</button>
+            </div>
         </div>
+
+        <!-- Product Grid -->
         <div class="product-grid" id="product-container"></div>
+
+        <!-- Comparison Section Placeholder -->
+        <div class="comparison-section">
+            <h2>Compare Models</h2>
+            <p>Select your favorite models to compare features side by side.</p>
+            <!-- Interactive comparison feature can be added here -->
+        </div>
     </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2023 Google Pixel Store. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Support</a>
+                <a href="#">Warranty</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
         // Model Specifications Database
         const modelSpecs = {
             'Pixel 9': {
                 display: '6.1" Actua OLED (2400×1080)',
-                refreshRate: '120Hz',
                 processor: 'Google Tensor G4',
                 ram: '8GB LPDDR5X',
-                cameras: '50MP main + 12MP ultra-wide',
-                battery: '4575mAh',
-                protection: 'IP68',
-                weight: '168g'
+                battery: '4575mAh'
             },
             'Pixel 9 Pro': {
                 display: '6.7" Super Actua OLED (3120×1440)',
-                refreshRate: '1-120Hz LTPO',
                 processor: 'Google Tensor G4',
                 ram: '12GB LPDDR5X',
-                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
-                battery: '5050mAh',
-                protection: 'IP68',
-                weight: '203g'
+                battery: '5050mAh'
             },
             'Pixel 9 Pro XL': {
                 display: '6.9" Super Actua OLED (3360×1520)',
-                refreshRate: '1-120Hz LTPO',
                 processor: 'Google Tensor G4',
                 ram: '12GB LPDDR5X',
-                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
-                battery: '5500mAh',
-                protection: 'IP68',
-                weight: '221g'
+                battery: '5500mAh'
             }
         };
 
@@ -225,7 +348,7 @@
             } catch (error) {
                 console.error('Error loading products:', error);
                 document.getElementById('product-container').innerHTML = 
-                    '<p style="text-align:center; color:red">Error loading products. Please try again later.</p>';
+                    '<p style="text-align:center; color:var(--discount-red)">Error loading products. Please try again later.</p>';
             }
         }
 
@@ -240,8 +363,8 @@
                 const specs = modelSpecs[product.MODEL];
                 const sCoinValue = product.RCP * product['S-Coin'];
                 const benefitsText = product.MODEL.includes("Pro") ? 
-                    "1 Year Google One AI Premium + 6mo Fitbit Premium*" : 
-                    "6mo Google One Premium 2TB + 6mo Fitbit Premium*";
+                    "1 Year Google One AI Premium + 6mo Fitbit Premium" : 
+                    "6mo Google One Premium 2TB + 6mo Fitbit Premium";
 
                 const card = document.createElement('div');
                 card.className = 'product-card';
@@ -250,56 +373,53 @@
                         <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
                         <div class="storage-badge">${product.GB}</div>
                     </div>
-                    
                     <div class="details-container">
                         <h2 class="model-title">${product.MODEL}</h2>
                         <div class="color-storage">${product.COLOR} | ${product.GB}</div>
-                        
                         <div class="price-container">
                             <span class="final-price">${formatCurrency(product.FINAL)}</span>
                             <span class="original-price">${formatCurrency(product.RCP)}</span>
                         </div>
-                        
                         <div class="coin-rebate">
                             🟡 ${(product['S-Coin']*100)}% S-Coin Rebate (≈ ${formatCurrency(sCoinValue)})
                         </div>
-                        
                         <div class="specs-grid">
                             <div class="spec-item">
+                                <span class="spec-icon">📱</span>
                                 <div>${specs.display}</div>
                                 <small>Display</small>
                             </div>
                             <div class="spec-item">
+                                <span class="spec-icon">⚡</span>
                                 <div>${specs.processor}</div>
                                 <small>Processor</small>
                             </div>
                             <div class="spec-item">
+                                <span class="spec-icon">🧠</span>
                                 <div>${specs.ram}</div>
                                 <small>RAM</small>
                             </div>
                             <div class="spec-item">
+                                <span class="spec-icon">🔋</span>
                                 <div>${specs.battery}</div>
                                 <small>Battery</small>
                             </div>
                         </div>
-                        
                         <div class="benefits-section">
-                            <strong>Premium Benefits:</strong><br>
-                            ${benefitsText}<br>
+                            <strong>Premium Benefits:</strong>
+                            <ul>
+                                ${benefitsText.split('+').map(benefit => `<li>✅ ${benefit.trim()}</li>`).join('')}
+                            </ul>
                             <em style="font-size:0.9em">*Until further notice</em>
                         </div>
-                        
                         <div class="free-gift">
                             🎁 Free Gift: ${product.REMARK} (While stocks last)
                         </div>
-                        
-                        <div class="staff-note">
-                            Staff Reference: ${product.PAC}<br>
-                            Instant Save: RM${product.VOU.toLocaleString()}
+                        <div class="stock-notice">
+                            Limited Stock - Order Now!
                         </div>
                     </div>
                 `;
-
                 container.appendChild(card);
             });
         }
