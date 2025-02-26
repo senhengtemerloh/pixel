@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Pixel 9 Series - Official Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <style>
         :root {
             --primary-blue: #1a73e8;
@@ -174,114 +175,137 @@
             <h1>Google Pixel 9 Series</h1>
             <p>Official Store Promotion - Limited Time Offers</p>
         </div>
-
         <div class="product-grid" id="product-container"></div>
     </div>
 
     <script>
-        // Sample data structure (replace with actual Excel data)
-        const products = [
-            {
-                CODE: "GOO-GA05226-CA-128G",
-                MODEL: "Pixel 9",
-                GB: "128GB",
-                COLOR: "Obsidian",
-                "S-Coin": 0.03,
-                RCP: 3999,
-                VOU: 630,
-                FINAL: 3369,
-                PAC: "PAC-GA05226-128G+X7U",
-                REMARK: "Riversong Air X7 Ultra TWS Earbuds worth RM229",
-                URL: "pixel9-obsidian.jpg",
-                specs: {
-                    display: "6.1\" Actua OLED (2400×1080)",
-                    refreshRate: "120Hz",
-                    processor: "Google Tensor G4",
-                    ram: "8GB LPDDR5X",
-                    cameras: "50MP main + 12MP ultra-wide",
-                    battery: "4575mAh",
-                    protection: "IP68 water resistance"
-                }
+        // Model Specifications Database
+        const modelSpecs = {
+            'Pixel 9': {
+                display: '6.1" Actua OLED (2400×1080)',
+                refreshRate: '120Hz',
+                processor: 'Google Tensor G4',
+                ram: '8GB LPDDR5X',
+                cameras: '50MP main + 12MP ultra-wide',
+                battery: '4575mAh',
+                protection: 'IP68',
+                weight: '168g'
             },
-            // Add other products following same structure
-        ];
+            'Pixel 9 Pro': {
+                display: '6.7" Super Actua OLED (3120×1440)',
+                refreshRate: '1-120Hz LTPO',
+                processor: 'Google Tensor G4',
+                ram: '12GB LPDDR5X',
+                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
+                battery: '5050mAh',
+                protection: 'IP68',
+                weight: '203g'
+            },
+            'Pixel 9 Pro XL': {
+                display: '6.9" Super Actua OLED (3360×1520)',
+                refreshRate: '1-120Hz LTPO',
+                processor: 'Google Tensor G4',
+                ram: '12GB LPDDR5X',
+                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
+                battery: '5500mAh',
+                protection: 'IP68',
+                weight: '221g'
+            }
+        };
+
+        async function loadProducts() {
+            try {
+                const response = await fetch('pixel.xlsx');
+                const data = await response.arrayBuffer();
+                const workbook = XLSX.read(data, { type: 'array' });
+                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                const products = XLSX.utils.sheet_to_json(worksheet);
+
+                processProducts(products);
+            } catch (error) {
+                console.error('Error loading products:', error);
+                document.getElementById('product-container').innerHTML = 
+                    '<p style="text-align:center; color:red">Error loading products. Please try again later.</p>';
+            }
+        }
 
         function formatCurrency(amount) {
             return 'RM' + amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
-        function createProductCard(product) {
-            const card = document.createElement('div');
-            card.className = 'product-card';
+        function processProducts(products) {
+            const container = document.getElementById('product-container');
             
-            const sCoinValue = product.RCP * product["S-Coin"];
-            const benefitsText = product.MODEL.includes("Pro") ? 
-                "1 Year Google One AI Premium + 6mo Fitbit Premium*" : 
-                "6mo Google One Premium 2TB + 6mo Fitbit Premium*";
+            products.forEach(product => {
+                const specs = modelSpecs[product.MODEL];
+                const sCoinValue = product.RCP * product['S-Coin'];
+                const benefitsText = product.MODEL.includes("Pro") ? 
+                    "1 Year Google One AI Premium + 6mo Fitbit Premium*" : 
+                    "6mo Google One Premium 2TB + 6mo Fitbit Premium*";
 
-            card.innerHTML = `
-                <div class="image-container">
-                    <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
-                    <div class="storage-badge">${product.GB}</div>
-                </div>
-                
-                <div class="details-container">
-                    <h2 class="model-title">${product.MODEL}</h2>
-                    <div class="color-storage">${product.COLOR} | ${product.GB}</div>
-                    
-                    <div class="price-container">
-                        <span class="final-price">${formatCurrency(product.FINAL)}</span>
-                        <span class="original-price">${formatCurrency(product.RCP)}</span>
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="image-container">
+                        <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
+                        <div class="storage-badge">${product.GB}</div>
                     </div>
                     
-                    <div class="coin-rebate">
-                        <span>🟡 ${(product["S-Coin"]*100)}% S-Coin Rebate (≈ ${formatCurrency(sCoinValue)})</span>
-                    </div>
-                    
-                    <div class="specs-grid">
-                        <div class="spec-item">
-                            <div>${product.specs.display}</div>
-                            <small>Display</small>
+                    <div class="details-container">
+                        <h2 class="model-title">${product.MODEL}</h2>
+                        <div class="color-storage">${product.COLOR} | ${product.GB}</div>
+                        
+                        <div class="price-container">
+                            <span class="final-price">${formatCurrency(product.FINAL)}</span>
+                            <span class="original-price">${formatCurrency(product.RCP)}</span>
                         </div>
-                        <div class="spec-item">
-                            <div>${product.specs.processor}</div>
-                            <small>Processor</small>
+                        
+                        <div class="coin-rebate">
+                            🟡 ${(product['S-Coin']*100)}% S-Coin Rebate (≈ ${formatCurrency(sCoinValue)})
                         </div>
-                        <div class="spec-item">
-                            <div>${product.specs.ram}</div>
-                            <small>RAM</small>
+                        
+                        <div class="specs-grid">
+                            <div class="spec-item">
+                                <div>${specs.display}</div>
+                                <small>Display</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.processor}</div>
+                                <small>Processor</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.ram}</div>
+                                <small>RAM</small>
+                            </div>
+                            <div class="spec-item">
+                                <div>${specs.battery}</div>
+                                <small>Battery</small>
+                            </div>
                         </div>
-                        <div class="spec-item">
-                            <div>${product.specs.battery}</div>
-                            <small>Battery</small>
+                        
+                        <div class="benefits-section">
+                            <strong>Premium Benefits:</strong><br>
+                            ${benefitsText}<br>
+                            <em style="font-size:0.9em">*Until further notice</em>
+                        </div>
+                        
+                        <div class="free-gift">
+                            🎁 Free Gift: ${product.REMARK} (While stocks last)
+                        </div>
+                        
+                        <div class="staff-note">
+                            Staff Reference: ${product.PAC}<br>
+                            Instant Save: RM${product.VOU.toLocaleString()}
                         </div>
                     </div>
-                    
-                    <div class="benefits-section">
-                        <strong>Premium Benefits:</strong><br>
-                        ${benefitsText}<br>
-                        <em style="font-size:0.9em">*Until further notice</em>
-                    </div>
-                    
-                    <div class="free-gift">
-                        🎁 Free Gift: ${product.REMARK} (While stocks last)
-                    </div>
-                    
-                    <div class="staff-note">
-                        Staff Reference: ${product.PAC}<br>
-                        Instant Save: RM${product.VOU.toLocaleString()}
-                    </div>
-                </div>
-            `;
+                `;
 
-            return card;
+                container.appendChild(card);
+            });
         }
 
-        // Render products
-        const container = document.getElementById('product-container');
-        products.forEach(product => {
-            container.appendChild(createProductCard(product));
-        });
+        // Initial load
+        loadProducts();
     </script>
 </body>
 </html>
