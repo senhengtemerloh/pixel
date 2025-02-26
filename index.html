@@ -1,290 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Google Pixel 9 Series</title>
-  <!-- Google Fonts for a modern look -->
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
   <style>
-    /* Reset & Base Styles */
+    /* Basic Reset */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Roboto', sans-serif;
-      background: #f5f5f5;
-      margin: 0;
-      padding: 0;
+      background: #f4f6f8;
       color: #333;
-    }
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
       padding: 20px;
     }
     h1 {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
-    /* Product Card Styles */
+    /* Two-column Grid Layout */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-gap: 20px;
+    }
+    /* Product Card */
     .product-card {
       background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
-      display: flex;
-      flex-wrap: wrap;
+      border-radius: 10px;
       overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
     }
+    /* Image Section */
     .product-image {
-      flex: 1 1 300px;
-      max-width: 300px;
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
       position: relative;
     }
     .product-image img {
       width: 100%;
-      display: block;
+      height: 100%;
+      object-fit: cover;
     }
-    /* Badge Styles */
-    .spec-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
+    /* Badges */
     .badge {
+      display: inline-block;
       padding: 5px 10px;
+      margin: 0 5px 5px 0;
+      font-size: 0.8rem;
+      border-radius: 20px;
+      background: #e0e0e0;
+    }
+    .badge.s-coin {
+      background: #ffeb3b;
+      color: #333;
+      font-weight: bold;
+    }
+    .badge.vou {
+      background: #ff7043;
+      color: #fff;
+      font-weight: bold;
+    }
+    .badge.spec {
+      background: #eeeeee;
+      color: #333;
+      margin: 2px;
+      padding: 4px 8px;
       border-radius: 12px;
       font-size: 0.8rem;
-      font-weight: 500;
-      color: #fff;
     }
-    .badge.gb {
-      background: #007bff;
+    .chip-main {
+      font-size: 0.9rem;
+      font-weight: bold;
     }
-    .badge.color {
-      /* Background color will be set inline based on actual color */
+    .chip-sub {
+      font-size: 0.7rem;
     }
     /* Product Details */
     .product-details {
-      flex: 2 1 300px;
-      padding: 20px;
-      position: relative;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
     }
-    .product-details h2 {
-      margin-top: 0;
-    }
-    .price {
-      font-size: 2rem;
+    .product-title {
+      font-size: 1.2rem;
       font-weight: 700;
-      color: #d9534f;
+      margin-bottom: 10px;
+    }
+    .specs {
+      margin-bottom: 10px;
+    }
+    .prices {
+      margin-bottom: 10px;
+    }
+    .final-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #2e7d32;
     }
     .rcp {
       font-size: 0.9rem;
-      color: #777;
+      color: #999;
       text-decoration: line-through;
       margin-left: 10px;
     }
     .savings {
-      margin-top: 10px;
       font-size: 1rem;
-      color: #5cb85c;
+      color: #d32f2f;
+      margin-bottom: 10px;
     }
-    .s-coin {
-      margin-top: 10px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #f0ad4e;
+    .specs-extra {
+      margin-bottom: 10px;
     }
-    .s-coin small {
-      font-size: 0.8rem;
-      color: #777;
-    }
-    .free-gift {
-      margin-top: 15px;
-      background: #e9ecef;
-      padding: 10px;
-      border-left: 4px solid #17a2b8;
+    .benefit {
+      background: #e3f2fd;
+      color: #0d47a1;
+      padding: 8px;
+      border-radius: 5px;
+      margin-bottom: 10px;
       font-size: 0.9rem;
     }
-    .benefits {
-      margin-top: 15px;
-      font-size: 0.95rem;
-      background: #f7f7f7;
-      padding: 10px;
-      border-left: 4px solid #6f42c1;
+    .freegift {
+      font-size: 0.9rem;
+      margin-bottom: 10px;
     }
-    .pac-vou {
-      margin-top: 15px;
+    .staff-info {
       font-size: 0.7rem;
-      color: #aaa;
-      position: absolute;
-      bottom: 10px;
-      right: 10px;
+      color: #777;
+      margin-top: auto;
+      text-align: right;
     }
-    @media (max-width: 768px) {
-      .product-card {
-        flex-direction: column;
-      }
-      .product-image, .product-details {
-        max-width: 100%;
-      }
-      .pac-vou {
-        position: static;
-        margin-top: 10px;
-      }
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .container { grid-template-columns: 1fr; }
+      .product-image { height: 150px; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Google Pixel 9 Series</h1>
-    <div id="product-list">
-      <!-- Product cards will be dynamically inserted here -->
-    </div>
+  <h1>Google Pixel 9 Series</h1>
+  <div class="container" id="product-container">
+    <!-- Product cards will be injected here by JavaScript -->
   </div>
-
-  <!-- SheetJS library to parse Excel files -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  
   <script>
-    // Mapping for color names to approximate hex codes
-    const colorMapping = {
-      "OBSIDIAN": "#343a40",     // Dark Gray
-      "PORCELAIN": "#F8F9FA",     // Off-white (text will be dark)
-      "WINTERGREEN": "#66cc66",   // Green
-      "PEONY": "#FFC0CB",         // Pink
-      "ROSE QUARTZ": "#F7CAC9",    // Soft Pink
-      "HAZEL": "#8B4513"          // Brown
-    };
-
-    // Helper function to format currency
-    function formatCurrency(value) {
-      return "RM" + parseFloat(value).toFixed(2);
+    // Sample Data from pixel.xlsx (here represented as JSON for reference)
+    const products = [
+      {"CODE":"GOO-GA05226-CA-128G","MODEL":"Pixel 9","GB":"128GB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":3999,"VOU":630,"FINAL":3369,"PAC":"PAC-GA05226-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/662390197b8742779d2f0ee4d00f0e62.jpg"},
+      {"CODE":"GOO-GA05839-CA-128G","MODEL":"Pixel 9","GB":"128GB","COLOR":"PORCELAIN","S-Coin":0.03,"RCP":3999,"VOU":630,"FINAL":3369,"PAC":"PAC-GA05839-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/a65f7a5a970a45c1a4ec1c0f6e956d67.jpg"},
+      {"CODE":"GOO-GA05840-CA-128G","MODEL":"Pixel 9","GB":"128GB","COLOR":"WINTERGREEN","S-Coin":0.03,"RCP":3999,"VOU":630,"FINAL":3369,"PAC":"PAC-GA05840-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/9c22cb7c188c4a78b382329c00ea8f9d.jpg"},
+      {"CODE":"GOO-GA05841-CA-128G","MODEL":"Pixel 9","GB":"128GB","COLOR":"PEONY","S-Coin":0.03,"RCP":3999,"VOU":630,"FINAL":3369,"PAC":"PAC-GA05841-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/603d91455def4c078f9abfd5a442ee4a.jpg"},
+      {"CODE":"GOO-GA05842-CA-256G","MODEL":"Pixel 9","GB":"256GB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":4499,"VOU":630,"FINAL":3869,"PAC":"PAC-GA05842-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/662390197b8742779d2f0ee4d00f0e62.jpg"},
+      {"CODE":"GOO-GA05843-CA-256G","MODEL":"Pixel 9","GB":"256GB","COLOR":"PORCELAIN","S-Coin":0.03,"RCP":4499,"VOU":630,"FINAL":3869,"PAC":"PAC-GA05843-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/a65f7a5a970a45c1a4ec1c0f6e956d67.jpg"},
+      {"CODE":"GOO-GA05844-CA-256G","MODEL":"Pixel 9","GB":"256GB","COLOR":"WINTERGREEN","S-Coin":0.03,"RCP":4499,"VOU":630,"FINAL":3869,"PAC":"PAC-GA05844-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/9c22cb7c188c4a78b382329c00ea8f9d.jpg"},
+      {"CODE":"GOO-GA09339-CA-256G","MODEL":"Pixel 9","GB":"256GB","COLOR":"PEONY","S-Coin":0.03,"RCP":4499,"VOU":630,"FINAL":3869,"PAC":"PAC-GA09339-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/603d91455def4c078f9abfd5a442ee4a.jpg"},
+      {"CODE":"GOO-GA05227-CA-128G","MODEL":"Pixel 9 Pro","GB":"128GB","COLOR":"OBSIDIAN","S-Coin":0.04,"RCP":5199,"VOU":800,"FINAL":4399,"PAC":"PAC-GA05227-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/5953a9afd076437ba284f5a6816502c2.jpg"},
+      {"CODE":"GOO-GA09359-CA-256G","MODEL":"Pixel 9 Pro","GB":"256GB","COLOR":"ROSE QUARTZ","S-Coin":0.04,"RCP":5699,"VOU":800,"FINAL":4899,"PAC":"PAC-GA09359-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/ec7fd136425c4fa48c088288376192d2.jpg"},
+      {"CODE":"GOO-GA05946-CA-256G","MODEL":"Pixel 9 Pro","GB":"256GB","COLOR":"OBSIDIAN","S-Coin":0.04,"RCP":5699,"VOU":800,"FINAL":4899,"PAC":"PAC-GA05946-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/5953a9afd076437ba284f5a6816502c2.jpg"},
+      {"CODE":"GOO-GA05951-CA-256G","MODEL":"Pixel 9 Pro","GB":"256GB","COLOR":"PORCELAIN","S-Coin":0.04,"RCP":5699,"VOU":800,"FINAL":4899,"PAC":"PAC-GA05951-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/640e5ec2f41d4e0abb213dd0ba73fb75.jpg"},
+      {"CODE":"GOO-GA05956-CA-256G","MODEL":"Pixel 9 Pro","GB":"256GB","COLOR":"HAZEL","S-Coin":0.04,"RCP":5699,"VOU":800,"FINAL":4899,"PAC":"PAC-GA05956-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/7080aa601ae348d3aa5084bffecd02a1.jpg"},
+      {"CODE":"GOO-GA05962-CA-512G","MODEL":"Pixel 9 Pro","GB":"512GB","COLOR":"OBSIDIAN","S-Coin":0.04,"RCP":6299,"VOU":800,"FINAL":5499,"PAC":"PAC-GA05962-512G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/5953a9afd076437ba284f5a6816502c2.jpg"},
+      {"CODE":"GOO-GA05972-CA-512G","MODEL":"Pixel 9 Pro","GB":"512GB","COLOR":"HAZEL","S-Coin":0.04,"RCP":6299,"VOU":800,"FINAL":5499,"PAC":"PAC-GA05972-512G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/7080aa601ae348d3aa5084bffecd02a1.jpg"},
+      {"CODE":"GOO-GA05360-CA-128G","MODEL":"Pixel 9 Pro XL","GB":"128GB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":5699,"VOU":980,"FINAL":4719,"PAC":"PAC-GA05360-128G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/2eb0916d9f6342f89edd765a2a610dff.jpg"},
+      {"CODE":"GOO-GA05983-CA-256G","MODEL":"Pixel 9 Pro XL","GB":"256GB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":6199,"VOU":980,"FINAL":5219,"PAC":"PAC-GA05983-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/2eb0916d9f6342f89edd765a2a610dff.jpg"},
+      {"CODE":"GOO-GA05984-CA-256G","MODEL":"Pixel 9 Pro XL","GB":"256GB","COLOR":"PORCELAIN","S-Coin":0.03,"RCP":6199,"VOU":980,"FINAL":5219,"PAC":"PAC-GA05984-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/9dd19b923aa3476b9718b6620d1ebe37.jpg"},
+      {"CODE":"GOO-GA05985-CA-256G","MODEL":"Pixel 9 Pro XL","GB":"256GB","COLOR":"HAZEL","S-Coin":0.03,"RCP":6199,"VOU":980,"FINAL":5219,"PAC":"PAC-GA05985-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/9060d2eefb744432bb80401a371705a6.jpg"},
+      {"CODE":"GOO-GA09322-CA-256G","MODEL":"Pixel 9 Pro XL","GB":"256GB","COLOR":"ROSE QUARTZ","S-Coin":0.03,"RCP":6199,"VOU":980,"FINAL":5219,"PAC":"PAC-GA09322-256G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/0927a697f3be4a97b4def6eda3e76f02.jpg"},
+      {"CODE":"GOO-GA05986-CA-512G","MODEL":"Pixel 9 Pro XL","GB":"512GB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":6799,"VOU":980,"FINAL":5819,"PAC":"PAC-GA05986-512G+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/2eb0916d9f6342f89edd765a2a610dff.jpg"},
+      {"CODE":"GOO-GA09479-CA-1TB","MODEL":"Pixel 9 Pro XL","GB":"1TB","COLOR":"OBSIDIAN","S-Coin":0.03,"RCP":7999,"VOU":980,"FINAL":7019,"PAC":"PAC-GA09479-1TB+X7U","REMARK":"Riversong Air X7 Ultra TWS Earbuds worth RM229","URL":"https://img.srewardscentre.com.my/image/2eb0916d9f6342f89edd765a2a610dff.jpg"}
+    ];
+    
+    // Return benefit text based on model
+    function getBenefit(model) {
+      if (model === "Pixel 9") {
+        return "Enjoy Premium Google Services* (6 months Google One Premium 2TB plan & 6 months Fitbit Premium)";
+      } else if (model.includes("Pixel 9 Pro")) {
+        return "Premium Google Services* (1 Year Google One AI Premium plan & 6 months Fitbit Premium)";
+      }
+      return "";
     }
-
-    // Load the Excel file (pixel.xlsx) from the same directory
-    fetch('pixel.xlsx')
-      .then(response => response.arrayBuffer())
-      .then(data => {
-        const workbook = XLSX.read(data, { type: 'array' });
-        const firstSheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[firstSheetName];
-        const jsonData = XLSX.utils.sheet_to_json(worksheet);
-        renderProducts(jsonData);
-      })
-      .catch(error => {
-        console.error("Error loading Excel file:", error);
-      });
-
-    function renderProducts(products) {
-      const container = document.getElementById('product-list');
-      products.forEach(product => {
-        // Calculate S-Coin value (based on RCP * S-Coin percentage)
-        let sCoinValue = Math.round(product.RCP * product["S-Coin"]);
-
-        // Determine the benefits text based on the model
-        let benefitText = "";
-        if (product.MODEL.includes("Pixel 9 Pro") || product.MODEL.includes("Pixel 9 Pro XL")) {
-          benefitText = "Premium Google Services* (1 Year Google One AI Premium plan and 6 months Fitbit Premium) <br><small>*until further notice</small>";
-        } else {
-          benefitText = "Enjoy Premium Google Services* (6 months Google One Premium 2 TB plan and 6 months Fitbit Premium) <br><small>*until further notice</small>";
-        }
-
-        // Create the product card
-        const card = document.createElement('div');
-        card.className = 'product-card';
-
-        // --- Left: Product Image & Spec Badges ---
-        const imgContainer = document.createElement('div');
-        imgContainer.className = 'product-image';
-        const img = document.createElement('img');
-        img.src = product.URL;
-        img.alt = product.MODEL;
-        imgContainer.appendChild(img);
-
-        // Badge container for GB and Color
-        const specBadge = document.createElement('div');
-        specBadge.className = 'spec-badge';
-
-        // GB badge
-        const gbBadge = document.createElement('div');
-        gbBadge.className = 'badge gb';
-        gbBadge.textContent = product.GB;
-        specBadge.appendChild(gbBadge);
-
-        // Color badge
-        const colorBadge = document.createElement('div');
-        colorBadge.className = 'badge color';
-        colorBadge.textContent = product.COLOR;
-        // Set background based on color mapping; fallback to gray if not found
-        let colKey = product.COLOR.toUpperCase();
-        colorBadge.style.backgroundColor = colorMapping[colKey] || '#999';
-        // Adjust text color for light backgrounds (e.g., PORCELAIN)
-        if(colKey === "PORCELAIN") {
-          colorBadge.style.color = '#333';
-        }
-        specBadge.appendChild(colorBadge);
-        imgContainer.appendChild(specBadge);
-
-        // --- Right: Product Details ---
-        const details = document.createElement('div');
-        details.className = 'product-details';
-
-        // Model Name (includes GB and Color for extra clarity)
-        const modelName = document.createElement('h2');
-        modelName.textContent = product.MODEL + " (" + product.GB + ", " + product.COLOR + ")";
-        details.appendChild(modelName);
-
-        // Price: Final price highlighted and RCP shown smaller and struck through
-        const priceInfo = document.createElement('div');
-        const finalPrice = document.createElement('span');
-        finalPrice.className = 'price';
-        finalPrice.textContent = formatCurrency(product.FINAL);
-        priceInfo.appendChild(finalPrice);
-
-        const rcpPrice = document.createElement('span');
-        rcpPrice.className = 'rcp';
-        rcpPrice.textContent = formatCurrency(product.RCP);
-        priceInfo.appendChild(rcpPrice);
-        details.appendChild(priceInfo);
-
-        // Savings information (voucher value)
-        const savings = document.createElement('div');
-        savings.className = 'savings';
-        savings.innerHTML = "You Save: " + formatCurrency(product.VOU);
-        details.appendChild(savings);
-
-        // S-Coin rebate info (most important; percentage and computed value)
-        const sCoinDiv = document.createElement('div');
-        sCoinDiv.className = 's-coin';
-        sCoinDiv.innerHTML = "S-Coin: " + (product["S-Coin"] * 100) + "% <small>(Worth " + formatCurrency(sCoinValue) + ")</small>";
-        details.appendChild(sCoinDiv);
-
-        // Free Gift display
-        const freeGift = document.createElement('div');
-        freeGift.className = 'free-gift';
-        freeGift.textContent = "Free Gift: " + product.REMARK;
-        details.appendChild(freeGift);
-
-        // Benefits information (placed under each model)
-        const benefits = document.createElement('div');
-        benefits.className = 'benefits';
-        benefits.innerHTML = benefitText;
-        details.appendChild(benefits);
-
-        // Bottom info: PAC code and voucher value for staff reference (very small font)
-        const pacInfo = document.createElement('div');
-        pacInfo.className = 'pac-vou';
-        pacInfo.textContent = product.PAC + " + InstantSave " + product.VOU;
-        details.appendChild(pacInfo);
-
-        // Append image and details to card
-        card.appendChild(imgContainer);
-        card.appendChild(details);
-        // Append card to main container
-        container.appendChild(card);
-      });
+    
+    // Return spec badges for each model
+    function getSpecs(model) {
+      if(model === "Pixel 9"){
+        return `
+          <span class="badge spec">6.1" OLED</span>
+          <span class="badge spec"><span class="chip-main">G4</span> <span class="chip-sub">Tensor Chip</span></span>
+          <span class="badge spec">8GB RAM</span>
+          <span class="badge spec">10MP Front</span>
+          <span class="badge spec">50MP Rear + Ultra-wide</span>
+        `;
+      } else if(model === "Pixel 9 Pro"){
+        return `
+          <span class="badge spec">6.7" OLED</span>
+          <span class="badge spec"><span class="chip-main">G4</span> <span class="chip-sub">Tensor Chip</span></span>
+          <span class="badge spec">12GB RAM</span>
+          <span class="badge spec">12MP Front</span>
+          <span class="badge spec">50MP Rear + Ultra-wide + Telephoto</span>
+        `;
+      } else if(model === "Pixel 9 Pro XL"){
+        return `
+          <span class="badge spec">6.9" OLED</span>
+          <span class="badge spec"><span class="chip-main">G4</span> <span class="chip-sub">Tensor Chip</span></span>
+          <span class="badge spec">12GB RAM</span>
+          <span class="badge spec">12MP Front</span>
+          <span class="badge spec">50MP Rear + Ultra-wide + Telephoto</span>
+        `;
+      } else {
+        return "";
+      }
     }
+    
+    const container = document.getElementById("product-container");
+    
+    products.forEach(product => {
+      // Calculate S-Coin value in RM (rounded)
+      const sCoinValue = Math.round(product.RCP * product["S-Coin"]);
+      
+      const card = document.createElement("div");
+      card.className = "product-card";
+      
+      card.innerHTML = `
+        <div class="product-image">
+          <img src="${product.URL}" alt="${product.MODEL} - ${product.COLOR}" />
+          <!-- Display GB as badge on the image -->
+          <div class="badge" style="position:absolute; top:10px; right:10px;">${product.GB}</div>
+        </div>
+        <div class="product-details">
+          <div class="product-title">${product.MODEL} (${product.GB}) - ${product.COLOR}</div>
+          <div class="specs">
+            <span class="badge s-coin">${(product["S-Coin"] * 100).toFixed(0)}% S-Coin <span style="font-size:0.7rem;">≈ RM${sCoinValue}</span></span>
+            <span class="badge vou">Save RM${product.VOU}</span>
+          </div>
+          <div class="prices">
+            <span class="final-price">RM${product.FINAL}</span>
+            <span class="rcp">RM${product.RCP}</span>
+          </div>
+          <div class="savings">You save RM${product.VOU} instantly!</div>
+          <div class="specs-extra">
+            ${getSpecs(product.MODEL)}
+          </div>
+          <div class="benefit">${getBenefit(product.MODEL)}</div>
+          <div class="freegift">Free Gift: ${product.REMARK} <em>(Stock Limited – While Stocks Last)</em></div>
+          <div class="staff-info">${product.PAC} + InstantSave ${product.VOU}</div>
+        </div>
+      `;
+      
+      container.appendChild(card);
+    });
   </script>
 </body>
 </html>
