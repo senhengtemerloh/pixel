@@ -3,55 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google Pixel 9 Series - Official Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <title>Tefal Product Catalog</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        :root {
-            --primary-blue: #1a73e8;
-            --discount-red: #d93025;
-            --coin-gold: #f9ab00;
-            --bg-grey: #f8f9fa;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
         body {
-            font-family: 'Google Sans', sans-serif;
-            background: var(--bg-grey);
-            color: #202124;
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            padding: 2rem;
+            margin: 0;
         }
 
         .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
         }
 
         .product-card {
             background: white;
-            border-radius: 16px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s;
         }
 
@@ -60,252 +34,82 @@
         }
 
         .image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
             position: relative;
-            height: 280px;
-            background: #f8f9fa;
-            padding: 20px;
         }
 
         .product-image {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
         }
 
-        .storage-badge {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        .details-container {
-            padding: 20px;
-        }
-
-        .model-title {
-            font-size: 1.4rem;
-            color: var(--primary-blue);
-            margin-bottom: 8px;
-        }
-
-        .color-storage {
-            color: #5f6368;
-            margin-bottom: 15px;
-        }
-
-        .price-container {
-            margin: 15px 0;
-        }
-
-        .final-price {
-            font-size: 1.8rem;
-            color: var(--discount-red);
-            font-weight: 700;
-        }
-
-        .original-price {
-            text-decoration: line-through;
-            color: #5f6368;
-            margin-left: 10px;
-        }
-
-        .coin-rebate {
-            background: var(--coin-gold);
-            color: black;
-            padding: 8px 15px;
-            border-radius: 25px;
-            margin: 15px 0;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 500;
-        }
-
-        .specs-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin: 15px 0;
-        }
-
-        .spec-item {
-            background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
+        .product-info {
+            padding: 1.5rem;
             text-align: center;
         }
 
-        .benefits-section {
-            background: #e8f0fe;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
+        .product-code {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0.5rem;
         }
 
-        .free-gift {
-            color: var(--discount-red);
-            font-weight: 500;
-            margin: 10px 0;
+        .product-name {
+            color: #666;
+            margin-bottom: 1rem;
+            min-height: 60px;
         }
 
-        .staff-note {
-            font-size: 0.8rem;
-            color: #5f6368;
-            margin-top: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .product-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .image-container {
-                height: 220px;
-            }
+        .product-price {
+            background: #ff4444;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 1.4rem;
+            font-weight: bold;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Google Pixel 9 Series</h1>
-            <p>Official Store Promotion - Limited Time Offers</p>
-        </div>
-        <div class="product-grid" id="product-container"></div>
-    </div>
+    <div class="container" id="productContainer"></div>
 
     <script>
-        // Model Specifications Database
-        const modelSpecs = {
-            'Pixel 9': {
-                display: '6.1" Actua OLED (2400×1080)',
-                refreshRate: '120Hz',
-                processor: 'Google Tensor G4',
-                ram: '8GB LPDDR5X',
-                cameras: '50MP main + 12MP ultra-wide',
-                battery: '4575mAh',
-                protection: 'IP68',
-                weight: '168g'
-            },
-            'Pixel 9 Pro': {
-                display: '6.7" Super Actua OLED (3120×1440)',
-                refreshRate: '1-120Hz LTPO',
-                processor: 'Google Tensor G4',
-                ram: '12GB LPDDR5X',
-                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
-                battery: '5050mAh',
-                protection: 'IP68',
-                weight: '203g'
-            },
-            'Pixel 9 Pro XL': {
-                display: '6.9" Super Actua OLED (3360×1520)',
-                refreshRate: '1-120Hz LTPO',
-                processor: 'Google Tensor G4',
-                ram: '12GB LPDDR5X',
-                cameras: '50MP main + 48MP telephoto (5x) + 12MP ultra-wide',
-                battery: '5500mAh',
-                protection: 'IP68',
-                weight: '221g'
-            }
-        };
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('tefal.xlsx')
+                .then(response => response.arrayBuffer())
+                .then(buffer => {
+                    const workbook = XLSX.read(buffer, { type: 'array' });
+                    const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const products = XLSX.utils.sheet_to_json(worksheet);
 
-        async function loadProducts() {
-            try {
-                const response = await fetch('pixel.xlsx');
-                const data = await response.arrayBuffer();
-                const workbook = XLSX.read(data, { type: 'array' });
-                const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-                const products = XLSX.utils.sheet_to_json(worksheet);
-
-                processProducts(products);
-            } catch (error) {
-                console.error('Error loading products:', error);
-                document.getElementById('product-container').innerHTML = 
-                    '<p style="text-align:center; color:red">Error loading products. Please try again later.</p>';
-            }
-        }
-
-        function formatCurrency(amount) {
-            return 'RM' + amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        function processProducts(products) {
-            const container = document.getElementById('product-container');
-            
-            products.forEach(product => {
-                const specs = modelSpecs[product.MODEL];
-                const sCoinValue = product.RCP * product['S-Coin'];
-                const benefitsText = product.MODEL.includes("Pro") ? 
-                    "1 Year Google One AI Premium + 6mo Fitbit Premium*" : 
-                    "6mo Google One Premium 2TB + 6mo Fitbit Premium*";
-
-                const card = document.createElement('div');
-                card.className = 'product-card';
-                card.innerHTML = `
-                    <div class="image-container">
-                        <img src="${product.URL}" class="product-image" alt="${product.MODEL}">
-                        <div class="storage-badge">${product.GB}</div>
-                    </div>
+                    const container = document.getElementById('productContainer');
                     
-                    <div class="details-container">
-                        <h2 class="model-title">${product.MODEL}</h2>
-                        <div class="color-storage">${product.COLOR} | ${product.GB}</div>
+                    products.forEach(product => {
+                        const card = document.createElement('div');
+                        card.className = 'product-card';
                         
-                        <div class="price-container">
-                            <span class="final-price">${formatCurrency(product.FINAL)}</span>
-                            <span class="original-price">${formatCurrency(product.RCP)}</span>
-                        </div>
-                        
-                        <div class="coin-rebate">
-                            🟡 ${(product['S-Coin']*100)}% S-Coin Rebate (≈ ${formatCurrency(sCoinValue)})
-                        </div>
-                        
-                        <div class="specs-grid">
-                            <div class="spec-item">
-                                <div>${specs.display}</div>
-                                <small>Display</small>
+                        card.innerHTML = `
+                            <div class="image-container">
+                                <img src="${product.URL}" class="product-image" alt="${product.NAME}" 
+                                     onerror="this.src='https://via.placeholder.com/300x250?text=Image+Not+Available'">
                             </div>
-                            <div class="spec-item">
-                                <div>${specs.processor}</div>
-                                <small>Processor</small>
+                            <div class="product-info">
+                                <div class="product-code">${product.CODE}</div>
+                                <div class="product-name">${product.NAME}</div>
+                                <div class="product-price">$${product.PRICE}</div>
                             </div>
-                            <div class="spec-item">
-                                <div>${specs.ram}</div>
-                                <small>RAM</small>
-                            </div>
-                            <div class="spec-item">
-                                <div>${specs.battery}</div>
-                                <small>Battery</small>
-                            </div>
-                        </div>
+                        `;
                         
-                        <div class="benefits-section">
-                            <strong>Premium Benefits:</strong><br>
-                            ${benefitsText}<br>
-                            <em style="font-size:0.9em">*Until further notice</em>
-                        </div>
-                        
-                        <div class="free-gift">
-                            🎁 Free Gift: ${product.REMARK} (While stocks last)
-                        </div>
-                        
-                        <div class="staff-note">
-                            Staff Reference: ${product.PAC}<br>
-                            Instant Save: RM${product.VOU.toLocaleString()}
-                        </div>
-                    </div>
-                `;
-
-                container.appendChild(card);
-            });
-        }
-
-        // Initial load
-        loadProducts();
+                        container.appendChild(card);
+                    });
+                })
+                .catch(error => console.error('Error loading products:', error));
+        });
     </script>
 </body>
 </html>
